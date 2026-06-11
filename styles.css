@@ -1,5 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
+@font-face {
+  font-family: 'Molia';
+  src: url('MoliaDemo/MoliaDemo.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Molia';
+  src: url('MoliaDemo/MoliaDemo-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Molia';
+  src: url('MoliaDemo/MoliaDemo-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Molia';
+  src: url('MoliaDemo/MoliaDemo-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
 :root {
   --bg:          #07101f;
   --bg-card:     rgba(255,255,255,0.04);
@@ -15,7 +40,8 @@
   --border:      rgba(91,155,255,0.14);
   --border-hov:  rgba(91,155,255,0.30);
 
-  --font: 'Inter', system-ui, sans-serif;
+  --font: 'Molia', 'Inter', system-ui, sans-serif;
+  --font-heading: 'Molia', var(--font);
   --max-w: 860px;
   --nav-h: 58px;
   --radius: 14px;
@@ -26,11 +52,7 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font);
-  background-color: var(--bg);
-  background-image:
-    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(30,70,180,0.14) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(20,50,140,0.10) 0%, transparent 60%);
-  background-attachment: fixed;
+  background-color: transparent;
   color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
@@ -43,7 +65,17 @@ img { max-width: 100%; height: auto; display: block; }
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: rgba(91,155,255,0.25); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--border-hov); border-radius: 4px; }
+
+#c {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
 
 .navbar {
   position: fixed;
@@ -86,6 +118,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .nav-item {
+  font-family: var(--font-heading);
   font-size: 0.82rem;
   font-weight: 500;
   color: var(--text-sub);
@@ -138,12 +171,19 @@ img { max-width: 100%; height: auto; display: block; }
   min-height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: calc(var(--nav-h) + 60px) 48px 80px;
   max-width: calc(var(--max-w) + 96px);
   margin: 0 auto;
 }
 
-.hero-content { max-width: 680px; }
+.hero-content { 
+  max-width: 680px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
 
 .hero-pill {
   display: inline-flex;
@@ -172,6 +212,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .hero-name {
+  font-family: var(--font-heading);
   font-size: clamp(3.6rem, 8vw, 7rem);
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -186,6 +227,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .hero-title {
+  font-family: var(--font-heading);
   font-size: clamp(1rem, 2.2vw, 1.2rem);
   font-weight: 500;
   color: var(--text-sub);
@@ -207,6 +249,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .hero-buttons {
   display: flex;
+  justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
   opacity: 0;
@@ -235,7 +278,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .btn-fill:hover {
   background: #78b0ff;
-  box-shadow: 0 8px 28px rgba(91,155,255,0.45);
+  box-shadow: 0 5px 28px rgba(80, 141, 239, 0.45);
 }
 
 .btn-outline {
@@ -255,6 +298,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .section-label {
+  font-family: var(--font-heading);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -264,6 +308,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .section-title {
+  font-family: var(--font-heading);
   font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -382,6 +427,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .exp-role {
+  font-family: var(--font-heading);
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--text);
