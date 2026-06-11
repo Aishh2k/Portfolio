@@ -117,7 +117,7 @@ if (c) {
 
   var colorPicker = (function() {
     // Add custom colors here later!
-    var colors = ["#07101f", "#1e46b4", "#14328c", "#282741"]; 
+    var colors = ["#07101f", "#17175d", "#14328c", "#252438"]; 
     var index = 0;
     function next() {
       index = index++ < colors.length-1 ? index : 0;
