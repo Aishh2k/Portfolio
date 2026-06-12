@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (catContainer && catPupils.length > 0) {
     let currentCount = 0;
     if (catClickCount) {
-      fetch('https://api.counterapi.dev/v1/aiswaryaj-com/cat-clicks/')
+      fetch('https://api.counterapi.dev/v1/aiswaryaj-com/cat-clicks/', { cache: 'no-store' })
         .then(response => response.json())
         .then(data => {
           currentCount = data.count || 0;
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
       catHeart.classList.add('show');
 
       if (catClickCount) {
-        fetch('https://api.counterapi.dev/v1/aiswaryaj-com/cat-clicks/up')
+        fetch('https://api.counterapi.dev/v1/aiswaryaj-com/cat-clicks/up', { cache: 'no-store' })
           .then(response => response.json())
           .then(data => {
             if (data && data.count !== undefined) {
