@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (catContainer && catPupils.length > 0) {
     let currentCount = 0;
     if (catClickCount) {
-      fetch('https://api.counterapi.dev/v1/aiswaryaj-com/cat-clicks')
+      fetch('https://api.counterapi.dev/v1/aiswaryaj-com/cat-clicks/')
         .then(response => response.json())
         .then(data => {
           currentCount = data.count || 0;
