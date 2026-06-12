@@ -66,24 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const footerYear = document.getElementById('footer-year');
   if (footerYear) footerYear.textContent = new Date().getFullYear();
 
+  /*
   const catPupils = document.querySelectorAll('.cat-pupil');
   const catContainer = document.getElementById('cute-cat-container');
   const catHeart = document.getElementById('cat-heart');
-  const catClickCount = document.getElementById('cat-click-count');
 
   if (catContainer && catPupils.length > 0) {
-    let currentCount = 0;
-    const counter = new Counter({ workspace: 'aiswarya-jayachandrans-team' });
-
-    if (catClickCount) {
-      counter.get('cat-clicks')
-        .then(result => {
-          currentCount = result.value || 0;
-          catClickCount.innerText = currentCount;
-        })
-        .catch(err => console.error('Error fetching count:', err));
-    }
-
     document.addEventListener('mousemove', (e) => {
       const catRect = catContainer.getBoundingClientRect();
       const catX = catRect.left + catRect.width / 2;
@@ -107,25 +95,11 @@ document.addEventListener('DOMContentLoaded', () => {
     catContainer.addEventListener('click', () => {
       if (catContainer.classList.contains('clicked')) return;
 
-      currentCount++;
-      if (catClickCount) {
-        catClickCount.innerText = currentCount;
-      }
-
       catContainer.classList.add('clicked');
-      catHeart.classList.remove('show');
-      void catHeart.offsetWidth;
-      catHeart.classList.add('show');
-
-      if (catClickCount) {
-        counter.up('cat-clicks')
-          .then(result => {
-            if (result && result.value !== undefined) {
-              currentCount = result.value;
-              catClickCount.innerText = currentCount;
-            }
-          })
-          .catch(err => console.error('Error updating count:', err));
+      if (catHeart) {
+        catHeart.classList.remove('show');
+        void catHeart.offsetWidth;
+        catHeart.classList.add('show');
       }
 
       setTimeout(() => {
@@ -133,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 400);
     });
   }
+  */
 
 });
 
