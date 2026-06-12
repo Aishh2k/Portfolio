@@ -63,6 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  const footerYear = document.getElementById('footer-year');
+  if (footerYear) footerYear.textContent = new Date().getFullYear();
+
   const catPupils = document.querySelectorAll('.cat-pupil');
   const catContainer = document.getElementById('cute-cat-container');
   const catHeart = document.getElementById('cat-heart');
