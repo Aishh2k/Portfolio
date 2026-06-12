@@ -13,15 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
   );
   revealEls.forEach((el) => revealObserver.observe(el));
 
-  const sections   = document.querySelectorAll('section[id]');
-  const navItems   = document.querySelectorAll('.nav-item[data-section]');
+  const sections = document.querySelectorAll('section[id]');
+  const navItems = document.querySelectorAll('.nav-item[data-section]');
 
   function highlightNav() {
     const scrollMid = window.scrollY + window.innerHeight * 0.4;
     sections.forEach((section) => {
-      const top    = section.offsetTop;
+      const top = section.offsetTop;
       const height = section.offsetHeight;
-      const id     = section.getAttribute('id');
+      const id = section.getAttribute('id');
       if (scrollMid >= top && scrollMid < top + height) {
         navItems.forEach((item) => {
           item.classList.toggle('active', item.dataset.section === id);
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = document.getElementById(item.dataset.section);
       if (target) target.scrollIntoView({ behavior: 'smooth' });
 
-      const navLinks  = document.getElementById('nav-links');
+      const navLinks = document.getElementById('nav-links');
       const navToggle = document.getElementById('nav-toggle');
       navLinks.classList.remove('open');
       navToggle.classList.remove('active');
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const navToggle = document.getElementById('nav-toggle');
-  const navLinks  = document.getElementById('nav-links');
+  const navLinks = document.getElementById('nav-links');
 
   if (navToggle) {
     navToggle.addEventListener('click', () => {
@@ -70,11 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (catContainer && catPupils.length > 0) {
     let currentCount = 0;
+    const counter = new Counter({ workspace: 'aiswarya-jayachandrans-team' });
+
     if (catClickCount) {
-      fetch('https://api.counterapi.dev/v1/aiswaryaj-com/cat-clicks/', { cache: 'no-store' })
-        .then(response => response.json())
-        .then(data => {
-          currentCount = data.count || 0;
+      counter.get('cat-clicks')
+        .then(result => {
+          currentCount = result.value || 0;
           catClickCount.innerText = currentCount;
         })
         .catch(err => console.error('Error fetching count:', err));
@@ -88,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const deltaX = e.clientX - catX;
       const deltaY = e.clientY - catY;
       const angle = Math.atan2(deltaY, deltaX);
-      
+
       const maxDistance = 4;
       const distance = Math.min(Math.hypot(deltaX, deltaY) / 50, maxDistance);
 
@@ -114,17 +115,16 @@ document.addEventListener('DOMContentLoaded', () => {
       catHeart.classList.add('show');
 
       if (catClickCount) {
-        fetch('https://api.counterapi.dev/v1/aiswaryaj-com/cat-clicks/up', { cache: 'no-store' })
-          .then(response => response.json())
-          .then(data => {
-            if (data && data.count !== undefined) {
-              currentCount = data.count;
+        counter.up('cat-clicks')
+          .then(result => {
+            if (result && result.value !== undefined) {
+              currentCount = result.value;
               catClickCount.innerText = currentCount;
             }
           })
           .catch(err => console.error('Error updating count:', err));
       }
-      
+
       setTimeout(() => {
         catContainer.classList.remove('clicked');
       }, 400);
@@ -143,11 +143,11 @@ if (c) {
   var animations = [];
   var circles = [];
 
-  var colorPicker = (function() {
-    var colors = ["#07101f", "#17175d", "#14328c", "#252438"]; 
+  var colorPicker = (function () {
+    var colors = ["#07101f", "#17175d", "#14328c", "#252438"];
     var index = 0;
     function next() {
-      index = index++ < colors.length-1 ? index : 0;
+      index = index++ < colors.length - 1 ? index : 0;
       return colors[index];
     }
     function current() {
@@ -176,99 +176,99 @@ if (c) {
   };
 
   function handleEvent(e) {
-      if (e.target.closest('#cute-cat-container')) {
-        return;
+    if (e.target.closest('#cute-cat-container')) {
+      return;
+    }
+
+    if (e.touches) {
+      e = e.touches[0];
+    }
+    var currentColor = colorPicker.current();
+    var nextColor = colorPicker.next();
+
+    var x = e.clientX;
+    var y = e.clientY;
+    var targetR = calcPageFillRadius(x, y);
+    var rippleSize = Math.min(200, (cW * .4));
+    var minCoverDuration = 750;
+
+    var pageFill = new Circle({
+      x: x,
+      y: y,
+      r: 0,
+      fill: nextColor
+    });
+    var fillAnimation = anime({
+      targets: pageFill,
+      r: targetR,
+      duration: Math.max(targetR / 2, minCoverDuration),
+      easing: "easeOutQuart",
+      complete: function () {
+        bgColor = pageFill.fill;
+        removeAnimation(fillAnimation);
       }
-      
-      if (e.touches) { 
-        e = e.touches[0];
-      }
-      var currentColor = colorPicker.current();
-      var nextColor = colorPicker.next();
-      
-      var x = e.clientX;
-      var y = e.clientY;
-      var targetR = calcPageFillRadius(x, y);
-      var rippleSize = Math.min(200, (cW * .4));
-      var minCoverDuration = 750;
-      
-      var pageFill = new Circle({
+    });
+
+    var ripple = new Circle({
+      x: x,
+      y: y,
+      r: 0,
+      fill: currentColor,
+      stroke: {
+        width: 3,
+        color: currentColor
+      },
+      opacity: 1
+    });
+    var rippleAnimation = anime({
+      targets: ripple,
+      r: rippleSize,
+      opacity: 0,
+      easing: "easeOutExpo",
+      duration: 900,
+      complete: removeAnimation
+    });
+
+    var particles = [];
+    for (var i = 0; i < 32; i++) {
+      var particle = new Circle({
         x: x,
         y: y,
-        r: 0,
-        fill: nextColor
-      });
-      var fillAnimation = anime({
-        targets: pageFill,
-        r: targetR,
-        duration:  Math.max(targetR / 2 , minCoverDuration ),
-        easing: "easeOutQuart",
-        complete: function(){
-          bgColor = pageFill.fill;
-          removeAnimation(fillAnimation);
-        }
-      });
-      
-      var ripple = new Circle({
-        x: x,
-        y: y,
-        r: 0,
         fill: currentColor,
-        stroke: {
-          width: 3,
-          color: currentColor
-        },
-        opacity: 1
-      });
-      var rippleAnimation = anime({
-        targets: ripple,
-        r: rippleSize,
-        opacity: 0,
-        easing: "easeOutExpo",
-        duration: 900,
-        complete: removeAnimation
-      });
-      
-      var particles = [];
-      for (var i=0; i<32; i++) {
-        var particle = new Circle({
-          x: x,
-          y: y,
-          fill: currentColor,
-          r: anime.random(24, 48)
-        })
-        particles.push(particle);
-      }
-      var particlesAnimation = anime({
-        targets: particles,
-        x: function(particle){
-          return particle.x + anime.random(rippleSize, -rippleSize);
-        },
-        y: function(particle){
-          return particle.y + anime.random(rippleSize * 1.15, -rippleSize * 1.15);
-        },
-        r: 0,
-        easing: "easeOutExpo",
-        duration: anime.random(1000,1300),
-        complete: removeAnimation
-      });
-      animations.push(fillAnimation, rippleAnimation, particlesAnimation);
+        r: anime.random(24, 48)
+      })
+      particles.push(particle);
+    }
+    var particlesAnimation = anime({
+      targets: particles,
+      x: function (particle) {
+        return particle.x + anime.random(rippleSize, -rippleSize);
+      },
+      y: function (particle) {
+        return particle.y + anime.random(rippleSize * 1.15, -rippleSize * 1.15);
+      },
+      r: 0,
+      easing: "easeOutExpo",
+      duration: anime.random(1000, 1300),
+      complete: removeAnimation
+    });
+    animations.push(fillAnimation, rippleAnimation, particlesAnimation);
   }
 
-  function extend(a, b){
-    for(var key in b) {
-      if(b.hasOwnProperty(key)) {
+  function extend(a, b) {
+    for (var key in b) {
+      if (b.hasOwnProperty(key)) {
         a[key] = b[key];
       }
     }
     return a;
   }
 
-  var Circle = function(opts) {
+  var Circle = function (opts) {
     extend(this, opts);
   }
 
-  Circle.prototype.draw = function() {
+  Circle.prototype.draw = function () {
     ctx.globalAlpha = this.opacity || 1;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
@@ -287,18 +287,18 @@ if (c) {
 
   var animate = anime({
     duration: Infinity,
-    update: function() {
+    update: function () {
       ctx.fillStyle = bgColor;
       ctx.fillRect(0, 0, cW, cH);
-      animations.forEach(function(anim) {
-        anim.animatables.forEach(function(animatable) {
+      animations.forEach(function (anim) {
+        anim.animatables.forEach(function (animatable) {
           animatable.target.draw();
         });
       });
     }
   });
 
-  var resizeCanvas = function() {
+  var resizeCanvas = function () {
     cW = window.innerWidth;
     cH = window.innerHeight;
     c.width = cW * devicePixelRatio;
