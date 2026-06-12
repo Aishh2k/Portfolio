@@ -1032,11 +1032,11 @@ img {
   }
 }
 
-/* ─── Cute Cat ──────────────────────────────── */
+
 #cute-cat-container {
   position: fixed !important;
   bottom: 20px !important;
-  right: 20px !important;
+  right: 40px !important;
   width: 100px !important;
   height: auto !important;
   z-index: 2147483647 !important;
@@ -1109,6 +1109,11 @@ img {
   font-size: 32px;
   opacity: 0;
   pointer-events: none;
+  white-space: nowrap;
+  font-family: var(--font-heading, sans-serif);
+  font-weight: 800;
+  color: var(--accent);
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 #cat-heart.show {

@@ -66,8 +66,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const catPupils = document.querySelectorAll('.cat-pupil');
   const catContainer = document.getElementById('cute-cat-container');
   const catHeart = document.getElementById('cat-heart');
+  const catClickCount = document.getElementById('cat-click-count');
 
   if (catContainer && catPupils.length > 0) {
+    let currentCount = 0;
+    if (catClickCount) {
+      fetch('https://api.counterapi.dev/v1/aiswaryaj-com/cat-clicks')
+        .then(response => response.json())
+        .then(data => {
+          currentCount = data.count || 0;
+          catClickCount.innerText = currentCount;
+        })
+        .catch(err => console.error('Error fetching count:', err));
+    }
+
     document.addEventListener('mousemove', (e) => {
       const catRect = catContainer.getBoundingClientRect();
       const catX = catRect.left + catRect.width / 2;
@@ -91,11 +103,27 @@ document.addEventListener('DOMContentLoaded', () => {
     catContainer.addEventListener('click', () => {
       if (catContainer.classList.contains('clicked')) return;
 
+      currentCount++;
+      if (catClickCount) {
+        catClickCount.innerText = currentCount;
+      }
+
       catContainer.classList.add('clicked');
       catHeart.classList.remove('show');
-      // trigger reflow to restart animation
       void catHeart.offsetWidth;
       catHeart.classList.add('show');
+
+      if (catClickCount) {
+        fetch('https://api.counterapi.dev/v1/aiswaryaj-com/cat-clicks/up')
+          .then(response => response.json())
+          .then(data => {
+            if (data && data.count !== undefined) {
+              currentCount = data.count;
+              catClickCount.innerText = currentCount;
+            }
+          })
+          .catch(err => console.error('Error updating count:', err));
+      }
       
       setTimeout(() => {
         catContainer.classList.remove('clicked');
@@ -105,18 +133,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-// --- COLOR CHANGING BACKGROUND (Anime.js) ---
+// --- COLOR CHANGING BACKGROUND ---
 var c = document.getElementById("c");
 if (c) {
   var ctx = c.getContext("2d");
   var cH;
   var cW;
-  var bgColor = "#07101f"; // Default starting background color
+  var bgColor = "#07101f";
   var animations = [];
   var circles = [];
 
   var colorPicker = (function() {
-    // Add custom colors here later!
     var colors = ["#07101f", "#17175d", "#14328c", "#252438"]; 
     var index = 0;
     function next() {
@@ -150,17 +177,15 @@ if (c) {
 
   function handleEvent(e) {
       if (e.target.closest('#cute-cat-container')) {
-        return; // Do not trigger background animation when clicking the cat
+        return;
       }
       
       if (e.touches) { 
-        // DO NOT prevent default so mobile scrolling still works
         e = e.touches[0];
       }
       var currentColor = colorPicker.current();
       var nextColor = colorPicker.next();
       
-      // Use clientX/Y so it works even when scrolled down!
       var x = e.clientX;
       var y = e.clientY;
       var targetR = calcPageFillRadius(x, y);
