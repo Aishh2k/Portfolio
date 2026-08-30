@@ -405,6 +405,15 @@ img {
   margin-bottom: 0;
 }
 
+.glow-link {
+  color: #ffffff;
+  font-weight: 400;
+  text-shadow:
+    0 0 1px rgba(255, 255, 255, 0.9),
+    0 0 5px rgba(91, 155, 255, 0.9),
+    0 0 8px rgba(91, 155, 255, 0.7);
+}
+
 .about-aside {
   display: flex;
   flex-direction: column;
